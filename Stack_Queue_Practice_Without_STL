@@ -1,0 +1,161 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Node 
+{
+public:
+    int val;
+    Node* next;
+
+    Node(int val) 
+    {
+        this->val = val;
+        this->next = NULL;
+    }
+};
+
+class Stack 
+{
+public:
+    Node* head = NULL;
+    int sz = 0;
+
+    void push(int val) 
+    {
+        sz++;
+        Node* newnode = new Node(val);
+        newnode->next = head;
+        head = newnode;
+    }
+
+    void pop() 
+    {
+        if (head == NULL) 
+        {
+            return;
+        }
+        sz--;
+        Node* deleteNode = head;
+        head = head->next;
+        delete deleteNode;
+    }
+
+    int getTop() 
+    {
+        if (head == NULL) 
+        {
+            return -1;
+        }
+        return head->val;
+    }
+
+    int size() 
+    {
+        return sz;
+    }
+
+    bool isEmpty() 
+    {
+        return head == NULL;
+    }
+};
+
+class myQueue 
+{
+public:
+    Node* head = NULL;
+    Node* tail = NULL;
+    int sz = 0;
+
+    void push(int val) 
+    {
+        sz++;
+        Node* newnode = new Node(val);
+        if (head == NULL) 
+        {
+            head = newnode;
+            tail = newnode;
+            return;
+        }
+        tail->next = newnode;
+        tail = newnode;
+    }
+
+    void pop() 
+    {
+        if (head == NULL) 
+        {
+            return;
+        }
+        sz--;
+        Node* deleteNode = head;
+        head = head->next;
+        delete deleteNode;
+        if (head == NULL) 
+        {
+            tail = NULL;
+        }
+    }
+
+    int front() 
+    {
+        if (head == NULL) 
+        {
+            return -1;
+        }
+        return head->val;
+    }
+
+    int size() 
+    {
+        return sz;
+    }
+
+    bool empty() 
+    {
+        return head == NULL;
+    }
+};
+
+int main() 
+{
+    int n, m;
+    cin >> n >> m;
+
+    Stack st;
+    myQueue q;
+
+    for (int i = 0; i < n; i++) 
+    {
+        int val;
+        cin >> val;
+        st.push(val);
+    }
+
+    for (int i = 0; i < m; i++) 
+    {
+        int val;
+        cin >> val;
+        q.push(val);
+    }
+
+    if (n != m) 
+    {
+        cout << "NO" << endl;
+        return 0;
+    }
+
+    while (!st.isEmpty() && !q.empty()) 
+    {
+        if (st.getTop() != q.front()) 
+        {
+            cout << "NO" << endl;
+            return 0;
+        }
+        st.pop();
+        q.pop();
+    }
+
+    cout << "YES" << endl;
+    return 0;
+}
